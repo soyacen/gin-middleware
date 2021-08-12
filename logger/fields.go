@@ -6,11 +6,6 @@ import (
 	"time"
 )
 
-var (
-	ServerField = map[string]interface{}{}
-	ClientField = map[string]interface{}{"system": "http.client"}
-)
-
 type FieldBuilder struct {
 	fields map[string]interface{}
 }
