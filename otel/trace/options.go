@@ -1,18 +1,14 @@
 package ginoteltrace
 
 import (
-	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/trace"
 )
 
-type RequestHandlerFunc func(span trace.Span, c *gin.Context)
-
 type options struct {
-	tracer             trace.Tracer
-	propagator         propagation.TextMapPropagator
-	requestHandlerFunc RequestHandlerFunc
+	tracer     trace.Tracer
+	propagator propagation.TextMapPropagator
 }
 
 func (o *options) apply(opts ...Option) {
@@ -25,9 +21,8 @@ type Option func(o *options)
 
 func defaultClientOptions() *options {
 	return &options{
-		tracer:             otel.Tracer(""),
-		propagator:         otel.GetTextMapPropagator(),
-		requestHandlerFunc: func(span trace.Span, c *gin.Context) {},
+		tracer:     otel.Tracer(""),
+		propagator: otel.GetTextMapPropagator(),
 	}
 }
 
@@ -40,11 +35,5 @@ func WithTracer(tracer trace.Tracer) Option {
 func WithPropagator(propagator propagation.TextMapPropagator) Option {
 	return func(o *options) {
 		o.propagator = propagator
-	}
-}
-
-func WithRequestHandlerFunc(requestHandlerFunc RequestHandlerFunc) Option {
-	return func(o *options) {
-		o.requestHandlerFunc = requestHandlerFunc
 	}
 }

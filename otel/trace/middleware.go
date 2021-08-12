@@ -24,7 +24,6 @@ func Middleware(opts ...Option) gin.HandlerFunc {
 			),
 		)
 		c.Request = c.Request.WithContext(ctx)
-		o.requestHandlerFunc(span, c)
 		c.Next()
 		span.SetAttributes(semconv.HTTPStatusCodeKey.Int(c.Writer.Status()))
 		span.End()
